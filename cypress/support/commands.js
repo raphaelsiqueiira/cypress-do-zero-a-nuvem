@@ -1,25 +1,21 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add(
+  "fillMandatoryFieldsAndSubmit",
+  (
+    data = {
+      firstName: "John",
+      lastName: "Doe",
+      email: "jonhdoe@gmail.com",
+      text: "Teste com cypress",
+    }
+  ) => {
+    cy.get("#firstName").as("campoNome").should("be.visible").type(data.firstName);
+    cy.get("@campoNome").should("have.value", data.firstName);
+    cy.get("#lastName").as("campoSobrenome").should("be.visible").type(data.lastName);
+    cy.get("@campoSobrenome").should("have.value", data.lastName);
+    cy.get("#email").as("campoEmail").should("be.visible").type(data.email);
+    cy.get("@campoEmail").should("have.value", data.email);
+    cy.get("#open-text-area").as("campoAreaTexto").should("be.visible").type(data.text);
+    cy.get("@campoAreaTexto").invoke("val").should("not.be.empty");
+    cy.contains("button", "Enviar").should("be.visible").click();
+  }
+);
