@@ -29,6 +29,6 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add("selectProductAndCheckOptions", () => {
+Cypress.Commands.add("selectProductAndCheckVisibility", () => {
   cy.get("select#product").as("productSelect").should("be.visible");
 });
