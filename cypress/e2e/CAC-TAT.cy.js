@@ -78,7 +78,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     cy.get("#phone-checkbox")
       .as("caixaSelecaoTelefone")
       .should("be.visible")
-      .click();
+      .check();
     cy.get("@caixaSelecaoTelefone").should("be.checked");
     cy.get("#open-text-area")
       .as("campoAreaTexto")
@@ -93,25 +93,25 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   it("preenche e limpa os campos nome, sobrenome, email e telefone", () => {
     cy.get("#firstName").as("campoNome").should("be.visible").type("Nome");
     cy.get("@campoNome").should("have.value", "Nome");
-    cy.get("@campoNome").clear().should("be.empty");
+    cy.get("@campoNome").clear().should("have.value", "");
     cy.get("#lastName")
       .as("campoSobrenome")
       .should("be.visible")
       .type("Sobrenome");
     cy.get("@campoSobrenome").should("have.value", "Sobrenome");
-    cy.get("@campoSobrenome").clear().should("be.empty");
+    cy.get("@campoSobrenome").clear().should("have.value", "");
     cy.get("#email")
       .as("campoEmail")
       .should("be.visible")
       .type("emailteste@gmail.com");
     cy.get("@campoEmail").should("have.value", "emailteste@gmail.com");
-    cy.get("@campoEmail").clear().should("be.empty");
+    cy.get("@campoEmail").clear().should("have.value", "");
     cy.get("#open-text-area")
       .as("campoAreaTexto")
       .should("be.visible")
       .type("Lorem ipsum ");
     cy.get("@campoAreaTexto").invoke("val").should("not.be.empty");
-    cy.get("@campoAreaTexto").clear().should("be.empty");
+    cy.get("@campoAreaTexto").clear().should("have.value", "");
     cy.contains("button", "Enviar").should("be.visible").click();
 
     cy.get(".error").should("be.visible");
@@ -153,9 +153,19 @@ describe("Central de Atendimento ao Cliente TAT", () => {
       .check();
     cy.get("@radioFeedback").should("be.checked");
   });
-  it.only("marca cada tipo de atendimento", () =>{
-    cy.get('input[type="radio"]').each((typeOfService) =>{
-      cy.wrap(typeOfService).check().should('be.checked')
-    })
+  it("marca cada tipo de atendimento", () => {
+    cy.get('input[type="radio"]').each((typeOfService) => {
+      cy.wrap(typeOfService).check().should("be.checked");
+    });
+  });
+  it("marca ambos checkboxes, depois desmarca o último", () => {
+    cy.get('input[type="checkbox"]')
+      .as("inputsCheckbox")
+      .should("be.visible")
+      .check();
+
+    cy.get("@inputsCheckbox").should("be.checked");
+    cy.get("@inputsCheckbox").last().uncheck();
+    cy.get("@inputsCheckbox").last().should("not.be.checked");
   });
 });
