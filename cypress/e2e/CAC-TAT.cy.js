@@ -144,6 +144,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
   it("seleciona um produto (Blog) por seu índice", () => {
     cy.selectProductAndCheckVisibility().select(1);
+
     cy.get("@productSelect").should("have.value", "blog");
   });
   it('marca o tipo de atendimento "Feedback"', () => {
@@ -151,6 +152,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
       .as("radioFeedback")
       .should("be.visible")
       .check();
+
     cy.get("@radioFeedback").should("be.checked");
   });
   it("marca cada tipo de atendimento", () => {
@@ -165,7 +167,32 @@ describe("Central de Atendimento ao Cliente TAT", () => {
       .check();
 
     cy.get("@inputsCheckbox").should("be.checked");
+
     cy.get("@inputsCheckbox").last().uncheck();
+
     cy.get("@inputsCheckbox").last().should("not.be.checked");
+  });
+  it("seleciona um arquivo da pasta fixtures", () => {
+    cy.get("#file-upload")
+      .selectFile("cypress/fixtures/example.json")
+      .should((input) => {
+        expect(input[0].files[0].name).to.equal("example.json");
+      });
+  });
+
+  it("seleciona um arquivo simulando um drag-and-drop", () => {
+    cy.get("#file-upload")
+      .selectFile("cypress/fixtures/example.json", { action: "drag-drop" })
+      .should((input) => {
+        expect(input[0].files[0].name).to.equal("example.json");
+      });
+  });
+  it("seleciona um arquivo utilizando uma fixture para a qual foi dada um alias", () => {
+    cy.fixture("example.json", { encoding: null }).as("exampleFile");
+    cy.get("#file-upload")
+      .selectFile("@exampleFile")
+      .should((input) => {
+        expect(input[0].files[0].name).to.equal("example.json");
+      });
   });
 });
