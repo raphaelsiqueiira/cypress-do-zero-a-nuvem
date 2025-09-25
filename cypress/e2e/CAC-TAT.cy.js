@@ -56,7 +56,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     cy.get(".error").should("be.visible");
   });
 
-  it("passando valor não-numérico para o campo de telefone", () => {
+  it("passando valor não numérico para o campo de telefone", () => {
     cy.get("#phone").as("campoTelefone").should("be.visible").type("letras");
 
     cy.get("@campoTelefone").invoke("val").should("be.empty");
