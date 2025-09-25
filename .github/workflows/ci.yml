@@ -8,3 +8,7 @@ jobs:
         uses: actions/checkout@v4 # baixa o projeto em um workspace no github
       - name: Cypress run
         uses: cypress-io/github-action@v6 # Executa os testes automatizados
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        with:
+          command: npm run test:cloud
