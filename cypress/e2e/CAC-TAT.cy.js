@@ -6,7 +6,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
 
   it("verifica o título da aplicação", () => {
-    cy.title().should("eq", "Central de Atendimento ao Cliente TATU");
+    cy.title().should("eq", "Central de Atendimento ao Cliente TAT");
   });
 
   it("preenche os campos obrigatórios e envia o formulário", () => {
